@@ -12,7 +12,7 @@ function initializeWebGL(canvasId) {
 }
 
 function initializeShaders(gl, vertexShaderSource, fragmentShaderSource) {
-  const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
+  const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource); // see shaderUtils.js
   const fragmentShader = createShader(
     gl,
     gl.FRAGMENT_SHADER,

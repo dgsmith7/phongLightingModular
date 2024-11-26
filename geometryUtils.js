@@ -1,4 +1,3 @@
-
 function generateMesh() {
   let meshVertices = [];
   let size = 10;

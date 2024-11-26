@@ -1,20 +1,20 @@
 "use strict";
 
-let gl = initializeWebGL("gl-canvas");
+let gl = initializeWebGL("gl-canvas"); // see webglUtils.js
 if (!gl) console.log("Your browser does not support webgl2");
 
-const program = initializeShaders(gl, vertexShaderSource, fragmentShaderSource);
+const program = initializeShaders(gl, vertexShaderSource, fragmentShaderSource); // see shaders.js and webglUtils.js
 gl.useProgram(program);
 gl.enable(gl.DEPTH_TEST);
 
-const vertices = generateMesh();
-const { p: positionsArray, n: normalsArray } = computeNormals(vertices);
+const vertices = generateMesh(); // see geometryUtils.js
+const { p: positionsArray, n: normalsArray } = computeNormals(vertices); // see geometryUtils.js
 
-const vertexBuffer = createBuffer(gl, flatten(positionsArray));
+const vertexBuffer = createBuffer(gl, flatten(positionsArray)); // see MVnew.js
 const normalBuffer = createBuffer(gl, flatten(normalsArray));
 const aPosition = gl.getAttribLocation(program, "aPosition");
 const aNormal = gl.getAttribLocation(program, "aNormal");
-bindBuffer(gl, vertexBuffer, aPosition, 4);
+bindBuffer(gl, vertexBuffer, aPosition, 4); // see bufferUtls.jsi
 bindBuffer(gl, normalBuffer, aNormal, 4);
 
 const uModelViewMatrix = gl.getUniformLocation(program, "uModelViewMatrix");
@@ -37,29 +37,7 @@ const vertices2 = [
 
 let canvas;
 
-function computeNormals(array) {
-  let nArray = [];
-  let pArray = [];
-  for (let i = 0; i < array.length; i = i + 12) {
-    let a = vec4(array[i], array[i + 1], array[i + 2], 1.0);
-    let b = vec4(array[i + 4], array[i + 5], array[i + 6], 1.0);
-    let c = vec4(array[i + 8], array[i + 9], array[i + 10], 1.0);
-    let t1 = subtract(b, a);
-    let t2 = subtract(c, a);
-    let n1 = cross(t1, t2);
-    let n2 = normalize(n1);
-    let normal = vec4(-n2[0], -n2[1], -n2[2], 0.0);
-    nArray.push(normal);
-    nArray.push(normal);
-    nArray.push(normal);
-    pArray.push(a);
-    pArray.push(b);
-    pArray.push(c);
-  }
-  return { p: pArray, n: nArray };
-}
-
-let positionsArray2 = computeNormals(vertices2).p;
+let positionsArray2 = computeNormals(vertices2).p; // see geometryUtils.js
 let normalsArray2 = computeNormals(vertices2).n;
 
 // variables for model view and projection matrices
@@ -164,7 +142,7 @@ function initialize() {
   uShininessLoc = gl.getUniformLocation(program, "uShininess");
 
   // wire up the gui controls
-  addEventListeners();
+  addEventListeners(); // see eventHandlers.js
 
   // Start the render loop
   render();
@@ -181,7 +159,7 @@ function render() {
   let aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
   let near = 0.1;
   let far = 100.0;
-  projectionMatrix = perspective(fovy, aspect, near, far);
+  projectionMatrix = perspective(fovy, aspect, near, far); // see MVnew.js
 
   // set up for lighting model
   lightPosition = vec4(lightX, lightY, lightZ, 0.0);
